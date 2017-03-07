@@ -1,0 +1,40 @@
+println """
+*******************************************
+ You are building the Launcher! 
+ Output files will be in /build/libs
+*******************************************
+"""
+group 'TheNightForum'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'GameContainer'
+
+sourceSets.main.java.srcDirs = ['src']
+sourceSets.main.resources.srcDirs = ['res']
+
+sourceCompatibility = 1.8
+
+ext.buildNumber = System.getenv("BUILD_NUMBER") ?: "dev"
+version 'Stable'
+
+task start(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = "com.tnf.GameContainer"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.tnf.GameContainer'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
